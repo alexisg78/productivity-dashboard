@@ -1,59 +1,258 @@
-# FinanceManager
+# Finance Manager Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+Aplicación web tipo **Productivity & Finance Dashboard** desarrollada con **Angular 21 + Tailwind CSS**, orientada a la gestión personal de gastos y tareas mediante una arquitectura escalable basada en features.
 
-## Development server
+Este proyecto fue diseñado como práctica profesional para demostrar:
 
-To start a local development server, run:
+- Arquitectura Angular moderna
+- Componentes reutilizables
+- UI escalable
+- Organización modular
+- Buenas prácticas de commits
+- Preparación para futura integración backend
 
-```bash
-ng serve
+---
+
+# Español
+
+## Descripción
+
+Finance Manager es una aplicación web orientada a la gestión personal de productividad que incluye:
+
+- Dashboard con tarjetas estadísticas
+- CRUD de gastos con persistencia local
+- Tablero Kanban estilo Trello con drag & drop
+- Tabla genérica reutilizable con paginación
+- Modal reutilizable configurable
+- Arquitectura feature‑based escalable
+
+Actualmente la persistencia se implementa mediante **localStorage** como capa temporal hasta futura integración con backend.
+
+---
+
+## Tecnologías utilizadas
+
+- Angular 21
+- TypeScript
+- Tailwind CSS v4
+- Angular CDK Drag & Drop
+- Arquitectura feature-based
+- LocalStorage (persistencia temporal)
+
+---
+
+## Arquitectura del proyecto
+
+El proyecto utiliza una arquitectura modular escalable basada en features:
+
+```
+src/app/
+
+core/
+features/
+layout/
+shared/
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Shared
 
-## Code scaffolding
+Componentes reutilizables:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Modal genérico configurable
+- Tabla genérica
+- Paginador reutilizable
 
-```bash
-ng generate component component-name
+### Features
+
+Módulos funcionales independientes:
+
+- dashboard
+- expenses
+- tasks
+
+Esta estructura permite escalar fácilmente el proyecto hacia una arquitectura enterprise-ready.
+
+---
+
+## Funcionalidades implementadas
+
+### Dashboard
+
+- Tarjetas de estadísticas (UI base preparada para lógica futura)
+
+### Expenses Module
+
+Permite:
+
+- Crear gastos
+- Editar gastos
+- Eliminar gastos
+- Persistencia en localStorage
+
+Utiliza tabla genérica reutilizable.
+
+### Tasks Module
+
+Incluye:
+
+- Tablero Kanban
+- Drag & Drop entre columnas
+- Gestión visual de estados
+
+Implementado usando Angular CDK.
+
+---
+
+## Componentes reutilizables
+
+Este proyecto incluye componentes diseñados para reutilización:
+
+### Generic Table
+
+Soporta:
+
+- Columnas dinámicas
+- Acciones configurables
+- Paginación
+- Tipado fuerte mediante interfaces
+
+### Modal Component
+
+Permite:
+
+- Contenido dinámico
+- Reutilización en múltiples features
+- Integración con formularios
+
+---
+
+## Roadmap
+
+Próximas mejoras planificadas:
+
+- Integración backend (NestJS o Node.js)
+- Persistencia en base de datos
+- Autenticación JWT
+- Dashboard con métricas reales
+- Filtros avanzados en tabla
+- Responsive improvements
+
+---
+
+# English
+
+## Description
+
+Finance Manager Dashboard is a **productivity-focused Angular application** designed to demonstrate scalable frontend architecture and reusable UI components.
+
+Current modules include:
+
+- Dashboard summary stat cards
+- Expenses CRUD module
+- Kanban task board with drag & drop
+- Reusable modal component
+- Reusable generic table with pagination
+
+Data persistence currently uses **localStorage** as a temporary storage layer before backend integration.
+
+---
+
+## Tech Stack
+
+- Angular 21
+- TypeScript
+- Tailwind CSS v4
+- Angular CDK Drag & Drop
+- Feature-based architecture
+
+---
+
+## Project Structure
+
+```
+src/app/
+
+core/
+features/
+layout/
+shared/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+This structure follows scalable Angular architecture best practices.
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## Implemented Features
 
-To build the project run:
+### Dashboard
 
-```bash
-ng build
-```
+Summary stat cards UI prepared for future analytics logic.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Expenses Module
 
-## Running unit tests
+Includes:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- Create expense
+- Update expense
+- Delete expense
+- Local persistence layer
 
-```bash
-ng test
-```
+Built using reusable generic table component.
 
-## Running end-to-end tests
+### Tasks Module
 
-For end-to-end (e2e) testing, run:
+Includes:
 
-```bash
-ng e2e
-```
+- Kanban board
+- Drag & Drop between columns
+- Visual state management
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Implemented using Angular CDK Drag & Drop.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Reusable Components
+
+### Generic Table Component
+
+Supports:
+
+- Dynamic columns
+- Configurable actions
+- Pagination
+- Strong typing via interfaces
+
+### Modal Component
+
+Supports:
+
+- Dynamic content injection
+- Feature reuse
+- Form integration
+
+---
+
+## Future Improvements
+
+Planned enhancements:
+
+- Backend integration (NestJS / Node.js)
+- Database persistence layer
+- JWT authentication
+- Dashboard analytics logic
+- Advanced filtering system
+- Mobile responsiveness improvements
+
+---
+
+## Purpose of the Project
+
+This project was built as part of a professional Angular portfolio to demonstrate:
+
+- scalable architecture decisions
+- reusable component design
+- clean project structure
+- modern Angular development practices
+
+Future versions will include fullstack capabilities.
+

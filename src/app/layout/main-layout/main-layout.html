@@ -1,0 +1,13 @@
+<div class="flex h-screen">
+  <sidebar />
+  <div class="flex flex-1 flex-col">
+    <div
+      class="flex min-h-screen flex-auto shrink-0 flex-col bg-white text-black antialiased dark:bg-gray-700 dark:text-white"
+    >
+      <header></header>
+      <main class="my-2 flex-1 overflow-auto p-2">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
+</div>

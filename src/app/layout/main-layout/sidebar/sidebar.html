@@ -1,0 +1,63 @@
+<div
+  class="sidebar fixed top-14 left-0 z-10 flex h-full w-14 flex-col border-none bg-blue-900 text-white transition-all duration-300 hover:w-64 md:w-64 dark:bg-gray-900"
+>
+  <li class="hidden px-5 md:block">
+    <div class="flex h-8 flex-row items-center">
+      <div class="text-sm font-light tracking-wide text-gray-400 uppercase">Main</div>
+    </div>
+  </li>
+  <div class="flex grow flex-col justify-between overflow-x-hidden overflow-y-auto">
+    <ul class="flex flex-col space-y-1 py-1">
+      @for (item of menuItems; track item.label) {
+        @if (item.section === 'main') {
+          <li
+            routerLinkActive="border-blue-500 bg-blue-800"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a
+              class="relative flex h-11 flex-row items-center border-l-4 border-transparent pr-6 text-white hover:border-blue-500 hover:bg-blue-800 focus:outline-none dark:hover:border-gray-800 dark:hover:bg-gray-600"
+              [routerLink]="item.route"
+            >
+              <span class="ml-4 inline-flex items-center justify-center">
+                <i [class]="item.icon + ' w-5 text-lg'"></i>
+              </span>
+
+              <span class="ml-2 truncate text-sm tracking-wide">
+                {{ item.label }}
+              </span>
+            </a>
+          </li>
+        }
+      }
+      <span class="my-5"></span>
+      <li
+        class="hidden px-5 md:block"
+        routerLinkActive="border-blue-500 bg-blue-800"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <div class="flex h-8 flex-row items-center">
+          <div class="text-sm font-light tracking-wide text-gray-400 uppercase">Settings</div>
+        </div>
+      </li>
+      @for (item of menuItems; track item.label) {
+        @if (item.section === 'setting') {
+          <li>
+            <a
+              class="relative flex h-11 flex-row items-center border-l-4 border-transparent pr-6 text-white hover:border-blue-500 hover:bg-blue-800 focus:outline-none dark:hover:border-gray-800 dark:hover:bg-gray-600"
+              [routerLink]="item.route"
+            >
+              <span class="ml-4 inline-flex items-center justify-center">
+                <i [class]="item.icon + ' w-5 text-lg'"></i>
+              </span>
+
+              <span class="ml-2 truncate text-sm tracking-wide">
+                {{ item.label }}
+              </span>
+            </a>
+          </li>
+        }
+      }
+    </ul>
+    <p class="mb-14 hidden px-5 py-3 text-center text-xs md:block">Copyright @2026</p>
+  </div>
+</div>

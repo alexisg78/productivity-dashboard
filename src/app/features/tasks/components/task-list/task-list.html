@@ -1,0 +1,48 @@
+<div class="grid grid-cols-1 gap-4 p-4 text-black md:grid-cols-2 xl:grid-cols-3 dark:text-white">
+  <div class="md:col-span-2 xl:col-span-3">
+    <h3 class="text-lg font-semibold">Gestión de Tareas</h3>
+  </div>
+
+  @for (list of list(); track list) {
+    <div class="md:col-span-1">
+      <div class="rounded bg-gray-200 p-3 dark:bg-gray-800">
+        <div class="flex justify-between py-1 text-black dark:text-white">
+          <h3 class="text-sm font-semibold">{{ list.title }}</h3>
+
+          <svg
+            class="h-4 cursor-pointer fill-current text-gray-600 dark:text-gray-500"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M5 10a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4z"
+            />
+          </svg>
+        </div>
+
+        <div
+          class="mt-2 min-h-24 space-y-2 text-black text-shadow-2xs dark:text-gray-50"
+          cdkDropList
+          [id]="list.id"
+          [cdkDropListData]="list.tasks"
+          [cdkDropListConnectedTo]="connectedLists()"
+          (cdkDropListDropped)="taskDropped.emit($event)"
+        >
+          @for (task of list.tasks; track task.id) {
+            <task-card [task]="task" />
+          }
+          @if (list.tasks.length === 0) {
+            <p class="text-sm text-gray-400">Arrastrar tareas aquí</p>
+          }
+        </div>
+
+        <button
+          class="mt-3 cursor-pointer text-sm text-gray-400 hover:text-black dark:hover:text-white"
+          (click)="addCard.emit(list.id)"
+        >
+          + Add a card
+        </button>
+      </div>
+    </div>
+  }
+</div>

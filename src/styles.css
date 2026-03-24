@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@layer components {
+  .header-right {
+    width: calc(100% - 3.5rem);
+  }
+
+  .sidebar:hover {
+    width: 16rem;
+  }
+
+  @media (min-width: 768px) {
+    .header-right {
+      width: calc(100% - 16rem);
+    }
+  }
+}

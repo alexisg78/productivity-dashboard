@@ -1,0 +1,96 @@
+<div class="mx-4 mt-4">
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full table-fixed">
+        <!-- HEADER -->
+        <thead>
+          <tr
+            class="border-b bg-gray-50 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+          >
+            @for (col of columns(); track col.field) {
+              <th class="truncate px-4 py-4" [class]="col.class">
+                {{ col.header }}
+              </th>
+            }
+
+            @if (actions().length) {
+              <th class="px-4 py-4 text-center">Acciones</th>
+            }
+          </tr>
+        </thead>
+
+        <!-- BODY -->
+        @if (data().length > 0) {
+          <tbody class="divide-y bg-white dark:divide-gray-700 dark:bg-gray-800">
+            @for (row of data(); track row) {
+              <tr
+                class="bg-gray-50 text-gray-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-900"
+              >
+                <!-- columnas dinámicas -->
+                @for (col of columns(); track col.field) {
+                  <td class="truncate px-4 py-3 text-sm" [class]="col.class">
+                    {{ row[col.field] }}
+                  </td>
+                }
+
+                <!-- acciones -->
+                @if (actions().length) {
+                  <td class="px-4 py-3 text-center text-sm">
+                    <div class="flex items-center justify-center gap-2">
+                      @for (action of actions(); track action) {
+                        @if (!action.show || action.show(row)) {
+                          <button
+                            (click)="action.action(row)"
+                            [class]="action.class"
+                            class="cursor-pointer transition-colors"
+                          >
+                            @if (action.icon) {
+                              <i [class]="action.icon"></i>
+                            }
+
+                            @if (action.label) {
+                              <span class="ml-1">{{ action.label }}</span>
+                            }
+                          </button>
+                        }
+                      }
+                    </div>
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        }
+      </table>
+    </div>
+
+    @if (showFooter()) {
+      <!-- footer -->
+      <div
+        class="flex flex-col gap-3 border-t bg-gray-50 px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase sm:flex-row sm:items-center sm:justify-between dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+      >
+        <!-- IZQUIERDA -->
+        <div class="flex items-center gap-4">
+          <span class="text-sm normal-case"> Registros: {{ data().length }} </span>
+          @if (showAddButton()) {
+            <button
+              (click)="handleAdd()"
+              class="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:cursor-pointer hover:text-blue-700"
+            >
+              <i class="fa-solid fa-square-plus"></i>
+              <span class="normal-case">Agregar</span>
+            </button>
+          }
+        </div>
+
+        <!-- DERECHA -->
+        <div class="flex items-center gap-6">
+          @if (total() !== null) {
+            <span class="text-sm font-medium text-blue-500 normal-case"> TOTAL: {{ total() }}</span>
+          }
+          <pagination />
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<custom-table
+  [columns]="columns"
+  [data]="expenses()"
+  [actions]="actions"
+  [total]="total()"
+  [onAdd]="addExpense"
+/>
+
+@if (showModal()) {
+  <modal (close)="closeModal()">
+    <expense-form
+      [expense]="selectedExpense()"
+      (save)="handleSave($event)"
+      (cancel)="closeModal()"
+      [last_id]="last_id()"
+    />
+  </modal>
+}

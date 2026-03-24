@@ -1,0 +1,86 @@
+<div class="w-full max-w-xl rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
+  <h2 class="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-200">
+    {{ expense() ? 'Editar gasto' : 'Nuevo gasto' }}
+  </h2>
+  <form (submit)="onSubmit(); $event.preventDefault()" class="space-y-4">
+    <!-- TITLE -->
+    <div>
+      <label class="block text-sm text-gray-600 dark:text-gray-400"> Título </label>
+      <input
+        type="text"
+        [value]="form().title"
+        (input)="updateField('title', $any($event.target).value)"
+        class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+      />
+    </div>
+
+    <!-- Categoria -->
+    <div>
+      <label for="category" class="block text-sm text-gray-600 dark:text-gray-400">Categoría</label>
+      <select
+        id="category"
+        class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+        [value]="form().category"
+        (input)="updateField('category', $any($event.target).value)"
+      >
+        <option selected>Seleccione una opción</option>
+        <option value="CRED">Tarjeta Crédito</option>
+        <option value="DEB">Tarjeta Débito</option>
+        <option value="FARM">Farmacia</option>
+        <option value="VET">Veterinaria</option>
+      </select>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div>
+      <label class="block text-sm text-gray-600 dark:text-gray-400"> Descripción </label>
+      <input
+        type="text"
+        [value]="form().description"
+        (input)="updateField('description', $any($event.target).value)"
+        class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+      />
+    </div>
+
+    <!-- AMOUNT + PRICE -->
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm text-gray-600 dark:text-gray-400"> Cantidad </label>
+        <input
+          type="number"
+          [value]="form().amount"
+          (input)="updateField('amount', +$any($event.target).value)"
+          class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm text-gray-600 dark:text-gray-400"> Precio </label>
+        <input
+          type="number"
+          [value]="form().currency"
+          (input)="updateField('currency', +$any($event.target).value)"
+          class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+        />
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="flex justify-end gap-3 pt-4">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="submit"
+        class="rounded-md bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

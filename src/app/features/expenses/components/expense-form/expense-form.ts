@@ -7,17 +7,11 @@ import { ExpenseModel } from '../../interfaces/expense-model';
   templateUrl: './expense-form.html',
 })
 export class ExpenseForm {
-  // INPUT (para editar)
   expense = input<ExpenseModel | null>(null);
-
-  // INPUT (ULTIMO ID)
   last_id = input(0);
-
-  // OUTPUT
   save = output<ExpenseModel>();
   cancel = output<void>();
 
-  // STATE LOCAL
   form = signal<ExpenseModel>({
     id: 0,
     category: 'Seleccione una opción',
@@ -27,7 +21,6 @@ export class ExpenseForm {
     currency: 0,
   });
 
-  // INIT cuando cambia el input
   ngOnInit() {
     if (this.expense()) {
       this.form.set({ ...this.expense()! });

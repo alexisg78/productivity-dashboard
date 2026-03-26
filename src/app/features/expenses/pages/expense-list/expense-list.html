@@ -1,10 +1,4 @@
-<custom-table
-  [columns]="columns"
-  [data]="expenses()"
-  [actions]="actions"
-  [total]="total()"
-  [onAdd]="addExpense"
-/>
+<custom-table [columns]="columns" [actions]="actions" [onAdd]="addExpense" [data]="expenses()" />
 
 @if (showModal()) {
   <modal (close)="closeModal()">
@@ -12,7 +6,6 @@
       [expense]="selectedExpense()"
       (save)="handleSave($event)"
       (cancel)="closeModal()"
-      [last_id]="last_id()"
     />
   </modal>
 }

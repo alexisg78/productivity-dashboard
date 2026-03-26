@@ -1,10 +1,11 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, output, signal } from '@angular/core';
 import { Table } from '../../../../shared/components/table/table';
 import { TableColumn } from '../../../../shared/interfaces/table-column.interface';
 import { TableAction } from '../../../../shared/interfaces/table-action.interface';
 import { ExpenseModel } from '../../interfaces/expense-model';
 import { Modal } from '../../../../shared/components/modal/modal';
 import { ExpenseForm } from '../../components/expense-form/expense-form';
+import { ExpenseStateService } from '../../../../core/services/expense-state';
 
 const dataExpenses: ExpenseModel[] = [
   {
@@ -46,30 +47,8 @@ const dataExpenses: ExpenseModel[] = [
   imports: [Table, Modal, ExpenseForm],
   templateUrl: './expense-list.html',
 })
-export default class ExpenseList implements OnInit {
-  ngOnInit(): void {
-    let data = localStorage.getItem('expense');
-
-    if (!data) {
-      data = JSON.stringify(this.expenses());
-      localStorage.setItem('expense', data);
-    }
-
-    this.expenses.set(JSON.parse(data));
-  }
-
-  listExpenses: ExpenseModel[] | null = [];
-  showModal = signal(false);
-  selectedExpense = signal<ExpenseModel | null>(null);
-  expenses = signal<ExpenseModel[]>(dataExpenses);
-
-  total = computed(() => this.expenses().reduce((acc, e) => acc + e.currency, 0));
-
-  last_id = computed(() => {
-    const list = this.expenses();
-    if (!list.length) return 1;
-    return Math.max(...list.map((e) => e.id)) + 1;
-  });
+export default class ExpenseList {
+  private expenseState = inject(ExpenseStateService);
 
   columns: TableColumn<ExpenseModel>[] = [
     { field: 'id', header: 'ID', class: 'hidden sm:table-cell md:hidden lg:hidden' },
@@ -95,38 +74,32 @@ export default class ExpenseList implements OnInit {
     },
   ];
 
+  expenses = this.expenseState.expensesReadonly;
+
+  showModal = signal(false);
+
+  selectedExpense = signal<ExpenseModel | null>(null);
+
   editExpense = (expense: ExpenseModel) => {
     this.selectedExpense.set(expense);
+
     this.showModal.set(true);
   };
 
   deleteExpense(expense: ExpenseModel) {
-    this.expenses.update((current) => current.filter((e) => e.id !== expense.id));
-    this.saveToStorage();
+    this.expenseState.delete(expense.id);
   }
 
   addExpense = () => {
     this.selectedExpense.set(null);
+
     this.showModal.set(true);
   };
 
   handleSave(expense: ExpenseModel) {
-    this.expenses.update((current) => {
-      const exists = current.some((e) => e.id === expense.id);
+    this.expenseState.add(expense);
 
-      if (exists) {
-        return current.map((e) => (e.id === expense.id ? expense : e));
-      }
-
-      return [...current, expense];
-    });
-
-    this.saveToStorage();
     this.showModal.set(false);
-  }
-
-  private saveToStorage() {
-    localStorage.setItem('expense', JSON.stringify(this.expenses()));
   }
 
   closeModal() {

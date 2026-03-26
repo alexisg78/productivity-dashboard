@@ -8,7 +8,7 @@ Este proyecto fue diseñado como práctica profesional para demostrar:
 - Componentes reutilizables
 - UI escalable
 - Organización modular
-- Buenas prácticas de commits
+- Buenas prácticas
 - Preparación para futura integración backend
 
 ---
@@ -255,4 +255,3 @@ This project was built as part of a professional Angular portfolio to demonstrat
 - modern Angular development practices
 
 Future versions will include fullstack capabilities.
-

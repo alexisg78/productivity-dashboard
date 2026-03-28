@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'modal',
@@ -7,4 +7,5 @@ import { Component, output } from '@angular/core';
 })
 export class Modal {
   close = output<void>();
+  title = input<string>('');
 }

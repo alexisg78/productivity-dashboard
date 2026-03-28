@@ -1,7 +1,7 @@
 <custom-table [columns]="columns" [actions]="actions" [onAdd]="addExpense" [data]="expenses()" />
 
 @if (showModal()) {
-  <modal (close)="closeModal()">
+  <modal (close)="closeModal()" [title]="'Gastos Mensuales'">
     <expense-form
       [expense]="selectedExpense()"
       (save)="handleSave($event)"

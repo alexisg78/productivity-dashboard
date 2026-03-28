@@ -6,7 +6,7 @@ const STORAGE_KEY = 'expense';
 const initialData: ExpenseModel[] = [
   {
     id: 1,
-    category: 'Medicamentos',
+    category: 'VET',
     title: 'Medicamento 1',
     description: 'Analgésico',
     amount: 1,
@@ -14,7 +14,7 @@ const initialData: ExpenseModel[] = [
   },
   {
     id: 2,
-    category: 'Medicamentos',
+    category: 'VET',
     title: 'Medicamento 2',
     description: 'Vitaminas',
     amount: 1,
@@ -22,7 +22,7 @@ const initialData: ExpenseModel[] = [
   },
   {
     id: 3,
-    category: 'Medicamentos',
+    category: 'VET',
     title: 'Medicamento 3',
     description: 'Rogastril',
     amount: 1,
@@ -30,7 +30,7 @@ const initialData: ExpenseModel[] = [
   },
   {
     id: 4,
-    category: 'Medicamentos',
+    category: 'VET',
     title: 'Medicamento 4',
     description: 'Lactulón',
     amount: 1,
@@ -59,11 +59,7 @@ export class ExpenseStateService {
   constructor() {
     const stored = localStorage.getItem(STORAGE_KEY);
 
-    if (stored) {
-      this.expenses.set(JSON.parse(stored));
-    } else {
-      this.expenses.set(initialData);
-    }
+    this.expenses.set(this.loadFromStorage());
 
     effect(() => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.expenses()));
@@ -83,5 +79,10 @@ export class ExpenseStateService {
 
   delete(id: number) {
     this.expenses.update((list) => list.filter((e) => e.id !== id));
+  }
+
+  loadFromStorage(): ExpenseModel[] {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : initialData;
   }
 }

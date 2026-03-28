@@ -37,8 +37,6 @@ export class ExpenseForm {
 
   onSubmit() {
     const value = this.form();
-    console.log('SUBMIT', value);
-
     if (!value.title.trim()) return;
 
     this.save.emit({

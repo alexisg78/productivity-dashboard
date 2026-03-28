@@ -1,0 +1,12 @@
+<!-- (ngSubmit)="submit() -->
+<form (submit)="onSubmit(); $event.preventDefault()">
+  <input
+    type="text"
+    placeholder="Título de la tarea"
+    class="w-full rounded border p-2"
+    [value]="title()"
+    (input)="title.set($any($event.target).value)"
+  />
+
+  <button type="submit" class="mt-2 rounded bg-blue-500 px-4 py-2 text-white">Agregar</button>
+</form>

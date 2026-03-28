@@ -1,1 +1,11 @@
-<task-list [list]="list()" [connectedLists]="connectedLists()" (taskDropped)="handleDrop($event)" />
+<task-list
+  [list]="list()"
+  [connectedLists]="connectedLists()"
+  (taskDropped)="handleDrop($event)"
+  (addTask)="openAddTaskModal($event)"
+/>
+@if (showTaskModal()) {
+  <modal (close)="showTaskModal.set(false)" [title]="'Gestión de Tareas'">
+    <task-form [columnId]="selectedColumnId()!" (taskCreated)="createTask($event)" />
+  </modal>
+}

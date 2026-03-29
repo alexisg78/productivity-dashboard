@@ -74,7 +74,13 @@ export class ExpenseStateService {
       return;
     }
 
-    this.expenses.update((list) => [...list, expense]);
+    this.expenses.update((list) => [
+      ...list,
+      {
+        ...expense,
+        id: this.lastId(),
+      },
+    ]);
   }
 
   delete(id: number) {

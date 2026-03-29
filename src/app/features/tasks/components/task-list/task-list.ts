@@ -2,6 +2,7 @@ import { Component, computed, input, output, signal } from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
 import { TaskListModel } from '../../interfaces/task-list-model';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { TaskModel } from '../../interfaces/task-model';
 
 @Component({
   selector: 'task-list',
@@ -14,26 +15,6 @@ export class TaskList {
   taskDropped = output<CdkDragDrop<any>>();
   addTask = output<string>();
 
-  showModal = signal(false);
-  selectedListId = signal<string | null>(null);
-
-  openAddTaskModal(listId: string) {
-    this.selectedListId.set(listId);
-    this.showModal.set(true);
-  }
-
-  closeModal() {
-    this.showModal.set(false);
-  }
-
-  taskCreated = output<{
-    title: string;
-    listId: string;
-  }>();
-
-  onTaskCreated(task: { title: string; listId: string }) {
-    this.taskCreated.emit(task);
-
-    this.closeModal();
-  }
+  deleteTask = output<number>();
+  editTask = output<TaskModel>();
 }

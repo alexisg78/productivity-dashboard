@@ -29,7 +29,11 @@
           (cdkDropListDropped)="taskDropped.emit($event)"
         >
           @for (task of list.tasks; track task.id) {
-            <task-card [task]="task" />
+            <task-card
+              [task]="task"
+              (delete)="deleteTask.emit($event)"
+              (edit)="editTask.emit($event)"
+            />
           }
           @if (list.tasks.length === 0) {
             <p class="text-sm text-gray-400">Arrastrar tareas aquí</p>

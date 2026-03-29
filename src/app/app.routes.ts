@@ -6,24 +6,25 @@ export const routes: Routes = [
     loadComponent: () => import('./features/dashboard/pages/dashboard'),
     children: [
       {
+        path: '',
+        loadComponent: () =>
+          import('./features/dashboard/components/dashboard-overview/dashboard-overview'),
+      },
+      {
         path: 'expenses',
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('./features/expenses/pages/expense-list/expense-list'),
-          },
-        ],
+        loadComponent: () => import('./features/expenses/pages/expense-list/expense-list'),
       },
       {
         path: 'tasks',
         loadComponent: () => import('./features/tasks/pages/task-page'),
       },
-
-      {
-        path: '**',
-        redirectTo: 'dashboard',
-      },
     ],
+  },
+
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
   },
 
   {

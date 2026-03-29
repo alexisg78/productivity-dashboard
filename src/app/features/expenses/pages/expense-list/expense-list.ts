@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { Table } from '../../../../shared/components/table/table';
 import { TableColumn } from '../../../../shared/interfaces/table-column.interface';
 import { TableAction } from '../../../../shared/interfaces/table-action.interface';

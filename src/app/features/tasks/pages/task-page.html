@@ -3,9 +3,16 @@
   [connectedLists]="connectedLists()"
   (taskDropped)="handleDrop($event)"
   (addTask)="openAddTaskModal($event)"
+  (deleteTask)="deleteTask($event)"
+  (editTask)="openEditModal($event)"
 />
 @if (showTaskModal()) {
   <modal (close)="showTaskModal.set(false)" [title]="'Gestión de Tareas'">
-    <task-form [columnId]="selectedColumnId()!" (taskCreated)="createTask($event)" />
+    <task-form
+      [columnId]="selectedColumnId()!"
+      [task]="selectedTask()"
+      (taskCreated)="createTask($event)"
+      (taskUpdated)="updateTask($event)"
+    />
   </modal>
 }

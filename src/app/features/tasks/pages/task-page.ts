@@ -4,6 +4,7 @@ import { TaskList } from '../components/task-list/task-list';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Modal } from '../../../shared/components/modal/modal';
 import { TaskForm } from '../components/task-form/task-form';
+import { TaskModel } from '../interfaces/task-model';
 
 const STORAGE_KEY = 'task';
 
@@ -39,6 +40,7 @@ export default class TaskPage {
   showTaskModal = signal(false);
 
   list = signal<TaskListModel[]>([]);
+  selectedTask = signal<TaskModel | null>(null);
 
   constructor() {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -77,6 +79,7 @@ export default class TaskPage {
   openAddTaskModal(columnId: string) {
     this.selectedColumnId.set(columnId);
     this.showTaskModal.set(true);
+    this.selectedTask.set(null);
   }
 
   createTask(event: { content: string; columnId: string }) {
@@ -99,10 +102,44 @@ export default class TaskPage {
     );
 
     this.showTaskModal.set(false);
+    this.selectedTask.set(null);
+  }
+
+  updateTask(event: { id: number; content: string; columnId: string }) {
+    this.list.update((lists) =>
+      lists.map((list) => {
+        if (list.id !== event.columnId) return list;
+
+        return {
+          ...list,
+          tasks: list.tasks.map((task) =>
+            task.id === event.id ? { ...task, content: event.content } : task,
+          ),
+        };
+      }),
+    );
+
+    this.showTaskModal.set(false);
+    this.selectedTask.set(null);
   }
 
   loadFromStorage(): TaskListModel[] {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : initialData;
+  }
+
+  deleteTask(taskId: number) {
+    this.list.update((lists) =>
+      lists.map((list) => ({
+        ...list,
+        tasks: list.tasks.filter((task) => task.id !== taskId),
+      })),
+    );
+  }
+
+  openEditModal(task: TaskModel) {
+    this.selectedTask.set(task);
+    this.selectedColumnId.set(task.status);
+    this.showTaskModal.set(true);
   }
 }

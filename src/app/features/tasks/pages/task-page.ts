@@ -1,34 +1,9 @@
-import { Component, computed, effect, input, signal } from '@angular/core';
-import { TaskListModel } from '../interfaces/task-list-model';
+import { Component, inject, signal } from '@angular/core';
+import { TaskStateService } from '../../../core/services/task-state';
+import { TaskModel } from '../interfaces/task-model';
 import { TaskList } from '../components/task-list/task-list';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Modal } from '../../../shared/components/modal/modal';
 import { TaskForm } from '../components/task-form/task-form';
-import { TaskModel } from '../interfaces/task-model';
-
-const STORAGE_KEY = 'task';
-
-const initialData: TaskListModel[] = [
-  {
-    id: 'todo',
-    title: 'Pendientes',
-    status: 'todo',
-    tasks: [
-      { id: 1, content: 'Delete all references from the wiki', status: 'todo' },
-      { id: 2, content: 'Remove analytics code', status: 'todo' },
-    ],
-  },
-  { id: 'in-progress', title: 'En progreso', status: 'in-progress', tasks: [] },
-  {
-    id: 'done',
-    title: 'Realizadas',
-    status: 'done',
-    tasks: [
-      { id: 3, content: 'fix bugs', status: 'done' },
-      { id: 4, content: 'Refactoring analytics code', status: 'done' },
-    ],
-  },
-];
 
 @Component({
   selector: 'task-page',
@@ -36,105 +11,38 @@ const initialData: TaskListModel[] = [
   templateUrl: './task-page.html',
 })
 export default class TaskPage {
+  private taskState = inject(TaskStateService);
+
+  list = this.taskState.listReadonly;
+  connectedLists = this.taskState.connectedLists;
   selectedColumnId = signal<string | null>(null);
+  selectedTask = signal<TaskModel | null>(null);
   showTaskModal = signal(false);
 
-  list = signal<TaskListModel[]>([]);
-  selectedTask = signal<TaskModel | null>(null);
-
-  constructor() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-
-    this.list.set(this.loadFromStorage());
-
-    effect(() => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.list()));
-    });
-  }
-
-  // Crear listas conectadas - permite mover tarjetas entre columnas.
-  connectedLists = computed(() => this.list().map((l) => l.id));
-
-  // Handler principal del drag - corazon del sistema
-  handleDrop(event: CdkDragDrop<any>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-
-      const movedTask = event.container.data[event.currentIndex];
-
-      movedTask.status = event.container.id;
-    }
-
-    this.list.update((list) => [...list]);
-  }
-
-  // Abre modal para Agregar tarea a la columna
   openAddTaskModal(columnId: string) {
     this.selectedColumnId.set(columnId);
+    this.selectedTask.set(null);
     this.showTaskModal.set(true);
-    this.selectedTask.set(null);
   }
 
-  createTask(event: { content: string; columnId: string }) {
-    this.list.update((lists) =>
-      lists.map((list) => {
-        if (list.id !== event.columnId) return list;
-
-        return {
-          ...list,
-          tasks: [
-            ...list.tasks,
-            {
-              id: Date.now(),
-              content: event.content,
-              status: list.status,
-            },
-          ],
-        };
-      }),
-    );
+  createTask(event: any) {
+    this.taskState.createTask(event.content, event.columnId);
 
     this.showTaskModal.set(false);
-    this.selectedTask.set(null);
   }
 
-  updateTask(event: { id: number; content: string; columnId: string }) {
-    this.list.update((lists) =>
-      lists.map((list) => {
-        if (list.id !== event.columnId) return list;
-
-        return {
-          ...list,
-          tasks: list.tasks.map((task) =>
-            task.id === event.id ? { ...task, content: event.content } : task,
-          ),
-        };
-      }),
-    );
+  updateTask(event: any) {
+    this.taskState.updateTask(event.id, event.content, event.columnId);
 
     this.showTaskModal.set(false);
-    this.selectedTask.set(null);
-  }
-
-  loadFromStorage(): TaskListModel[] {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : initialData;
   }
 
   deleteTask(taskId: number) {
-    this.list.update((lists) =>
-      lists.map((list) => ({
-        ...list,
-        tasks: list.tasks.filter((task) => task.id !== taskId),
-      })),
-    );
+    this.taskState.deleteTask(taskId);
+  }
+
+  handleDrop(event: any) {
+    this.taskState.handleDrop(event);
   }
 
   openEditModal(task: TaskModel) {

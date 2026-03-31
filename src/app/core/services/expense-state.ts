@@ -57,8 +57,6 @@ export class ExpenseStateService {
   });
 
   constructor() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-
     this.expenses.set(this.loadFromStorage());
 
     effect(() => {

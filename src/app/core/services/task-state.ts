@@ -37,6 +37,20 @@ export class TaskStateService {
 
   connectedLists = computed(() => this.list().map((l) => l.id));
 
+  taskStats = computed(() => {
+    let inProgress = 0;
+    let done = 0;
+
+    for (const list of this.list()) {
+      for (const task of list.tasks) {
+        if (task.status === 'in-progress') inProgress++;
+        if (task.status === 'done') done++;
+      }
+    }
+
+    return { inProgress, done };
+  });
+
   constructor() {
     effect(() => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.list()));

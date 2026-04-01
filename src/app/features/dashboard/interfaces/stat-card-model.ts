@@ -3,4 +3,5 @@ export interface StatsCardModel {
   value: number;
   icon: string;
   category?: string;
+  type?: string;
 }

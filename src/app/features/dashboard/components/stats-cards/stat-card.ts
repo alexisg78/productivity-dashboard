@@ -19,8 +19,9 @@ export class StatCard {
     {
       icon: 'fa-solid fa-clipboard-check',
       value: this.taskStateService.taskStats().done,
-      label: '% Tareas completadas',
+      label: 'Tareas completadas',
       category: 'Task',
+      type: 'completedTasks',
     },
     { icon: 'fa-solid fa-chart-line', value: this.expenseValue(), label: 'Gastos del mes' },
     { icon: 'fa-solid fa-percent', value: this.prom(), label: 'Promedio por gasto' },

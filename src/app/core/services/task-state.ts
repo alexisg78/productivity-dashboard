@@ -1,6 +1,5 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { TaskListModel } from '../../features/tasks/interfaces/task-list-model';
-import { TaskModel } from '../../features/tasks/interfaces/task-model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 const STORAGE_KEY = 'task';
@@ -41,6 +40,9 @@ export class TaskStateService {
     let inProgress = 0;
     let done = 0;
 
+    let tasks = this.list().flatMap((l) => l.tasks);
+    let countList = tasks.length;
+
     for (const list of this.list()) {
       for (const task of list.tasks) {
         if (task.status === 'in-progress') inProgress++;
@@ -48,6 +50,8 @@ export class TaskStateService {
       }
     }
 
+    const doneCount = done;
+    done = countList === 0 ? 0 : Math.round((doneCount / countList) * 100);
     return { inProgress, done };
   });
 

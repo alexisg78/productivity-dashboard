@@ -1,18 +1,20 @@
-<task-list
-  [list]="list()"
-  [connectedLists]="connectedLists()"
-  (taskDropped)="handleDrop($event)"
-  (addTask)="openAddTaskModal($event)"
-  (deleteTask)="deleteTask($event)"
-  (editTask)="openEditModal($event)"
-/>
-@if (showTaskModal()) {
-  <modal (close)="showTaskModal.set(false)" [title]="'Gestión de Tareas'">
-    <task-form
-      [columnId]="selectedColumnId()!"
-      [task]="selectedTask()"
-      (taskCreated)="createTask($event)"
-      (taskUpdated)="updateTask($event)"
-    />
-  </modal>
-}
+<div class="flex min-h-full flex-col">
+  <task-list
+    [list]="list()"
+    [connectedLists]="connectedLists()"
+    (taskDropped)="handleDrop($event)"
+    (addTask)="openAddTaskModal($event)"
+    (deleteTask)="deleteTask($event)"
+    (editTask)="openEditModal($event)"
+  />
+  @if (showTaskModal()) {
+    <modal (close)="showTaskModal.set(false)" [title]="'Gestión de Tareas'">
+      <task-form
+        [columnId]="selectedColumnId()!"
+        [task]="selectedTask()"
+        (taskCreated)="createTask($event)"
+        (taskUpdated)="updateTask($event)"
+      />
+    </modal>
+  }
+</div>

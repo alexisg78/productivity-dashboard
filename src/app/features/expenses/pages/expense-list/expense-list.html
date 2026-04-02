@@ -1,4 +1,17 @@
-<h3 class="px-4 pt-4 pb-0 text-lg font-semibold">Gestión de gastos</h3>
+<!-- <h3 class="px-4 pt-4 pb-0 text-lg font-semibold">Gestión de gastos</h3>
+<custom-table [columns]="columns" [actions]="actions" [onAdd]="addExpense" [data]="expenses()" />
+
+@if (showModal()) {
+  <modal (close)="closeModal()" [title]="'Gastos Mensuales'">
+    <expense-form
+      [expense]="selectedExpense()"
+      (save)="handleSave($event)"
+      (cancel)="closeModal()"
+    />
+  </modal>
+} -->
+
+<h3 class="px-4 pt-4 text-lg font-semibold">Gestión de gastos</h3>
 <custom-table [columns]="columns" [actions]="actions" [onAdd]="addExpense" [data]="expenses()" />
 
 @if (showModal()) {

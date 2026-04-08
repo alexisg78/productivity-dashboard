@@ -127,4 +127,34 @@ export class TaskStateService {
 
     return stored ? JSON.parse(stored) : initialData;
   }
+
+  restartTask() {
+    this.list.update((lists: TaskListModel[]): TaskListModel[] => {
+      const doneColumn = lists.find((l) => l.id === 'done');
+      if (!doneColumn) return lists;
+
+      const doneTasks = doneColumn.tasks.map((task) => ({
+        ...task,
+        status: 'todo' as const,
+      }));
+
+      return lists.map((list): TaskListModel => {
+        if (list.id === 'done') {
+          return {
+            ...list,
+            tasks: [],
+          };
+        }
+
+        if (list.id === 'todo') {
+          return {
+            ...list,
+            tasks: [...doneTasks, ...list.tasks],
+          };
+        }
+
+        return list;
+      });
+    });
+  }
 }

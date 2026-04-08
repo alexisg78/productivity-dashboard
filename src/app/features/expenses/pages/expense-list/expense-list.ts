@@ -7,41 +7,6 @@ import { Modal } from '../../../../shared/components/modal/modal';
 import { ExpenseForm } from '../../components/expense-form/expense-form';
 import { ExpenseStateService } from '../../../../core/services/expense-state';
 
-const dataExpenses: ExpenseModel[] = [
-  {
-    id: 1,
-    category: 'Medicamentos',
-    title: 'Medicamento 1',
-    description: 'Analgésico',
-    amount: 1,
-    currency: 24499.0,
-  },
-  {
-    id: 2,
-    category: 'Medicamentos',
-    title: 'Medicamento 2',
-    description: 'Vitaminas',
-    amount: 1,
-    currency: 15000.0,
-  },
-  {
-    id: 3,
-    category: 'Medicamentos',
-    title: 'Medicamento 3',
-    description: 'Rogastril',
-    amount: 1,
-    currency: 20000.0,
-  },
-  {
-    id: 4,
-    category: 'Medicamentos',
-    title: 'Medicamento 4',
-    description: 'Lactulón',
-    amount: 1,
-    currency: 10000.0,
-  },
-];
-
 @Component({
   selector: 'expense-list',
   imports: [Table, Modal, ExpenseForm],

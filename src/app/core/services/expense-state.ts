@@ -9,32 +9,32 @@ const initialData: ExpenseModel[] = [
     category: 'VET',
     title: 'Medicamento 1',
     description: 'Analgésico',
-    amount: 1,
-    currency: 24499,
+    amount: 24499,
+    currency: 'ARS',
   },
   {
     id: 2,
     category: 'VET',
     title: 'Medicamento 2',
     description: 'Vitaminas',
-    amount: 1,
-    currency: 15000,
+    amount: 15000,
+    currency: 'ARS',
   },
   {
     id: 3,
     category: 'VET',
     title: 'Medicamento 3',
     description: 'Rogastril',
-    amount: 1,
-    currency: 20000,
+    amount: 200,
+    currency: 'USD',
   },
   {
     id: 4,
     category: 'VET',
     title: 'Medicamento 4',
     description: 'Lactulón',
-    amount: 1,
-    currency: 10000,
+    amount: 100,
+    currency: 'USD',
   },
 ];
 
@@ -46,7 +46,7 @@ export class ExpenseStateService {
 
   expensesReadonly = this.expenses.asReadonly();
 
-  total = computed(() => this.expenses().reduce((acc, e) => acc + e.currency, 0));
+  total = computed(() => this.expenses().reduce((acc, e) => acc + e.amount, 0));
 
   amount = computed(() => this.expenses().length);
 

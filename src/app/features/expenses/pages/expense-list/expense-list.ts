@@ -20,8 +20,8 @@ export default class ExpenseList {
     { field: 'category', header: 'Categoría' },
     { field: 'title', header: 'Título' },
     { field: 'description', header: 'Descripción', class: 'hidden md:table-cell' },
-    { field: 'amount', header: 'Cantidad' },
-    { field: 'currency', header: 'Precio' },
+    { field: 'amount', header: 'Precio' },
+    { field: 'currency', header: 'Moneda' },
   ];
 
   actions: TableAction<ExpenseModel>[] = [

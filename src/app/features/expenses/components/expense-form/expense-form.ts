@@ -17,8 +17,8 @@ export class ExpenseForm {
     category: 'Seleccione una opción',
     title: '',
     description: '',
-    amount: 1,
-    currency: 0,
+    amount: 0,
+    currency: 'ARS',
   });
 
   ngOnInit() {

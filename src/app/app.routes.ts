@@ -20,7 +20,11 @@ export const routes: Routes = [
       },
     ],
   },
-
+  {
+    path: 'settings',
+    loadComponent: () => import('./features/settings/settings'),
+    pathMatch: 'full',
+  },
   {
     path: '',
     redirectTo: 'dashboard',

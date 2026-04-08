@@ -36,7 +36,7 @@ export class Sidebar {
     {
       label: 'Configuraciones',
       icon: 'fa-solid fa-gear',
-      route: '/dashboard/settings',
+      route: '/settings',
       section: 'setting',
     },
   ];

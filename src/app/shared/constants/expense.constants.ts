@@ -1,4 +1,4 @@
-import { Category } from '../../features/expenses/interfaces/expense-model';
+import { Category } from '../../features/expenses/interfaces/expense-dto';
 
 export const CATEGORY_VALUES = [
   'SERV',

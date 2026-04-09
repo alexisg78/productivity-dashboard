@@ -1,6 +1,7 @@
 import { Component, effect, input, output, signal } from '@angular/core';
 import { ExpenseModel } from '../../interfaces/expense-model';
 import { CATEGORY_LABELS, CATEGORY_VALUES } from '../../../../shared/constants/expense.constants';
+import { CreateExpenseDto } from '../../interfaces/expense-dto';
 
 @Component({
   selector: 'expense-form',
@@ -9,20 +10,19 @@ import { CATEGORY_LABELS, CATEGORY_VALUES } from '../../../../shared/constants/e
 })
 export class ExpenseForm {
   expense = input<ExpenseModel | null>(null);
-  last_id = input(0);
-  save = output<ExpenseModel>();
+  save = output<CreateExpenseDto>();
   cancel = output<void>();
 
   categories = CATEGORY_VALUES;
   categoryLabels = CATEGORY_LABELS;
 
-  form = signal<ExpenseModel>({
-    id: 0,
+  form = signal<CreateExpenseDto>({
     category: 'OTRO',
     title: '',
     description: '',
     amount: 0,
     currency: 'ARS',
+    expenseDate: new Date(),
   });
 
   constructor() {
@@ -30,22 +30,29 @@ export class ExpenseForm {
       const exp = this.expense();
 
       if (exp) {
-        this.form.set({ ...exp });
+        this.form.set({
+          category: exp.category,
+          title: exp.title,
+          description: exp.description,
+          amount: exp.amount,
+          currency: exp.currency,
+          expenseDate: exp.expenseDate,
+        });
       } else {
         this.form.set({
-          id: this.last_id(),
           category: 'OTRO',
           title: '',
           description: '',
           amount: 0,
           currency: 'ARS',
+          expenseDate: new Date(),
         });
       }
     });
   }
 
   // HANDLERS
-  updateField<K extends keyof ExpenseModel>(field: K, value: ExpenseModel[K]) {
+  updateField<K extends keyof CreateExpenseDto>(field: K, value: ExpenseModel[K]) {
     this.form.update((current) => ({
       ...current,
       [field]: value,
@@ -56,10 +63,7 @@ export class ExpenseForm {
     const value = this.form();
     if (!value.title.trim()) return;
 
-    this.save.emit({
-      ...value,
-      id: value.id || this.last_id(),
-    });
+    this.save.emit(value);
   }
 
   onCancel() {

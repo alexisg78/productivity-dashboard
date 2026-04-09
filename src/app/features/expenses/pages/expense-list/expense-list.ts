@@ -6,6 +6,7 @@ import { ExpenseModel } from '../../interfaces/expense-model';
 import { Modal } from '../../../../shared/components/modal/modal';
 import { ExpenseForm } from '../../components/expense-form/expense-form';
 import { ExpenseStateService } from '../../../../core/services/expense-state';
+import { CreateExpenseDto } from '../../interfaces/expense-dto';
 
 @Component({
   selector: 'expense-list',
@@ -22,6 +23,7 @@ export default class ExpenseList {
     { field: 'description', header: 'Descripción', class: 'hidden md:table-cell' },
     { field: 'amount', header: 'Precio' },
     { field: 'currency', header: 'Moneda' },
+    { field: 'expenseDate', header: 'Fecha' },
   ];
 
   actions: TableAction<ExpenseModel>[] = [
@@ -61,8 +63,14 @@ export default class ExpenseList {
     this.showModal.set(true);
   };
 
-  handleSave(expense: ExpenseModel) {
-    this.expenseState.add(expense);
+  handleSave(dto: CreateExpenseDto) {
+    const selected = this.selectedExpense();
+
+    if (selected) {
+      this.expenseState.update(selected.id, dto);
+    } else {
+      this.expenseState.create(dto);
+    }
 
     this.showModal.set(false);
   }

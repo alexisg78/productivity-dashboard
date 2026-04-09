@@ -1,5 +1,6 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { ExpenseModel } from '../../features/expenses/interfaces/expense-model';
+import { CreateExpenseDto } from '../../features/expenses/interfaces/expense-dto';
 
 const STORAGE_KEY = 'expense';
 
@@ -11,6 +12,7 @@ const initialData: ExpenseModel[] = [
     description: 'Analgésico',
     amount: 24499,
     currency: 'ARS',
+    expenseDate: new Date(),
   },
   {
     id: 2,
@@ -19,6 +21,7 @@ const initialData: ExpenseModel[] = [
     description: 'Vitaminas',
     amount: 15000,
     currency: 'ARS',
+    expenseDate: new Date(),
   },
   {
     id: 3,
@@ -27,6 +30,7 @@ const initialData: ExpenseModel[] = [
     description: 'Rogastril',
     amount: 200,
     currency: 'USD',
+    expenseDate: new Date(),
   },
   {
     id: 4,
@@ -35,6 +39,7 @@ const initialData: ExpenseModel[] = [
     description: 'Lactulón',
     amount: 100,
     currency: 'USD',
+    expenseDate: new Date(),
   },
 ];
 
@@ -64,21 +69,29 @@ export class ExpenseStateService {
     });
   }
 
-  add(expense: ExpenseModel) {
-    const exists = this.expenses().some((e) => e.id === expense.id);
+  create(expense: CreateExpenseDto) {
+    const newExpense: ExpenseModel = {
+      ...expense,
+      id: this.generateId(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
 
-    if (exists) {
-      this.expenses.update((list) => list.map((e) => (e.id === expense.id ? expense : e)));
-      return;
-    }
+    this.expenses.update((list) => [...list, newExpense]);
+  }
 
-    this.expenses.update((list) => [
-      ...list,
-      {
-        ...expense,
-        id: this.lastId(),
-      },
-    ]);
+  update(id: number, changes: Partial<CreateExpenseDto>) {
+    this.expenses.update((list) =>
+      list.map((exp) =>
+        exp.id === id
+          ? {
+              ...exp,
+              ...changes,
+              updatedAt: new Date(),
+            }
+          : exp,
+      ),
+    );
   }
 
   delete(id: number) {
@@ -87,6 +100,24 @@ export class ExpenseStateService {
 
   loadFromStorage(): ExpenseModel[] {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : initialData;
+
+    if (!stored) return initialData;
+
+    const parsed = JSON.parse(stored);
+
+    return parsed.map((e: ExpenseModel) => ({
+      ...e,
+      expenseDate: new Date(e.expenseDate),
+      createdAt: e.createdAt ? new Date(e.createdAt) : undefined,
+      updatedAt: e.updatedAt ? new Date(e.updatedAt) : undefined,
+    }));
+  }
+
+  private generateId(): number {
+    const list = this.expenses();
+
+    if (!list.length) return 1;
+
+    return Math.max(...list.map((e) => e.id)) + 1;
   }
 }

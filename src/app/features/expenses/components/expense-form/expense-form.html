@@ -24,7 +24,7 @@
         [value]="form().category"
         (change)="updateField('category', $any($event.target).value)"
       >
-        <option []="" disabled>Seleccione una opción</option>
+        <option [value]="" disabled>Seleccione una opción</option>
         @for (cat of categories; track cat) {
           <option [value]="cat" [selected]="cat === form().category">
             {{ categoryLabels[cat] }}

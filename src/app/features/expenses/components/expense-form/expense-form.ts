@@ -1,5 +1,5 @@
 import { Component, effect, input, output, signal } from '@angular/core';
-import { ExpenseModel } from '../../interfaces/expense-model';
+import { CATEGORY_LABELS, CATEGORY_VALUES, ExpenseModel } from '../../interfaces/expense-model';
 
 @Component({
   selector: 'expense-form',
@@ -12,19 +12,35 @@ export class ExpenseForm {
   save = output<ExpenseModel>();
   cancel = output<void>();
 
+  categories = CATEGORY_VALUES;
+  categoryLabels = CATEGORY_LABELS;
+
   form = signal<ExpenseModel>({
     id: 0,
-    category: 'Seleccione una opción',
+    category: 'OTRO',
     title: '',
     description: '',
     amount: 0,
     currency: 'ARS',
   });
 
-  ngOnInit() {
-    if (this.expense()) {
-      this.form.set({ ...this.expense()! });
-    }
+  constructor() {
+    effect(() => {
+      const exp = this.expense();
+
+      if (exp) {
+        this.form.set({ ...exp });
+      } else {
+        this.form.set({
+          id: this.last_id(),
+          category: 'OTRO',
+          title: '',
+          description: '',
+          amount: 0,
+          currency: 'ARS',
+        });
+      }
+    });
   }
 
   // HANDLERS

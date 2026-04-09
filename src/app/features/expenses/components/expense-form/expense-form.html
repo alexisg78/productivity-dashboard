@@ -10,7 +10,7 @@
         type="text"
         [value]="form().title"
         placeholder="Título del gasto"
-        (input)="updateField('title', $any($event.target).value)"
+        (change)="updateField('title', $any($event.target).value)"
         class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
       />
     </div>
@@ -22,13 +22,14 @@
         id="category"
         class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
         [value]="form().category"
-        (input)="updateField('category', $any($event.target).value)"
+        (change)="updateField('category', $any($event.target).value)"
       >
-        <option selected>Seleccione una opción</option>
-        <option value="CRED">Tarjeta Crédito</option>
-        <option value="DEB">Tarjeta Débito</option>
-        <option value="FARM">Farmacia</option>
-        <option value="VET">Veterinaria</option>
+        <option []="" disabled>Seleccione una opción</option>
+        @for (cat of categories; track cat) {
+          <option [value]="cat" [selected]="cat === form().category">
+            {{ categoryLabels[cat] }}
+          </option>
+        }
       </select>
     </div>
 

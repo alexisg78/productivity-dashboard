@@ -1,5 +1,6 @@
 import { Component, effect, input, output, signal } from '@angular/core';
-import { CATEGORY_LABELS, CATEGORY_VALUES, ExpenseModel } from '../../interfaces/expense-model';
+import { ExpenseModel } from '../../interfaces/expense-model';
+import { CATEGORY_LABELS, CATEGORY_VALUES } from '../../../../shared/constants/expense.constants';
 
 @Component({
   selector: 'expense-form',

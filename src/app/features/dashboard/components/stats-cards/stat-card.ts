@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { StatsCardModel } from '../../interfaces/stat-card-model';
 import { CurrencyPipe } from '@angular/common';
 import { TaskStateService } from '../../../../core/services/task-state';

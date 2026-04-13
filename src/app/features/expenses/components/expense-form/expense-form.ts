@@ -2,10 +2,11 @@ import { Component, effect, input, output, signal } from '@angular/core';
 import { ExpenseModel } from '../../interfaces/expense-model';
 import { CATEGORY_LABELS, CATEGORY_VALUES } from '../../../../shared/constants/expense.constants';
 import { CreateExpenseDto } from '../../interfaces/expense-dto';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'expense-form',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './expense-form.html',
 })
 export class ExpenseForm {
@@ -22,7 +23,7 @@ export class ExpenseForm {
     description: '',
     amount: 0,
     currency: 'ARS',
-    expenseDate: new Date(),
+    expenseDate: new Date(new Date().toISOString().split('T')[0]), // hacer que la fecha default sea hoy en formato local correcto
   });
 
   constructor() {
@@ -57,6 +58,17 @@ export class ExpenseForm {
       ...current,
       [field]: value,
     }));
+  }
+
+  onDateChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+
+    this.updateField(
+      'expenseDate',
+      value
+        ? new Date(value + 'T00:00:00') // evita problemas de timezone
+        : new Date(),
+    );
   }
 
   onSubmit() {

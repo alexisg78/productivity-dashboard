@@ -23,7 +23,11 @@ export default class ExpenseList {
     { field: 'description', header: 'Descripción', class: 'hidden md:table-cell' },
     { field: 'amount', header: 'Precio' },
     { field: 'currency', header: 'Moneda' },
-    { field: 'expenseDate', header: 'Fecha' },
+    {
+      field: 'expenseDate',
+      header: 'Fecha',
+      formatter: (value) => new Intl.DateTimeFormat('es-AR').format(value as Date), // con esta forma evito la DI del DatePipe
+    },
   ];
 
   actions: TableAction<ExpenseModel>[] = [

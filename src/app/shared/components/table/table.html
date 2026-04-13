@@ -29,7 +29,7 @@
                 <!-- columnas dinámicas -->
                 @for (col of columns(); track col.field) {
                   <td class="truncate px-4 py-3 text-sm" [class]="col.class">
-                    {{ row[col.field] }}
+                    {{ col.formatter ? col.formatter(row[col.field], row) : row[col.field] }}
                   </td>
                 }
 

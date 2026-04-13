@@ -1,11 +1,10 @@
 import { Component, input } from '@angular/core';
-import { Pagination } from './pagination/pagination';
 import { TableColumn } from '../../interfaces/table-column.interface';
 import { TableAction } from '../../interfaces/table-action.interface';
 
 @Component({
   selector: 'custom-table',
-  imports: [Pagination],
+  imports: [],
   templateUrl: './table.html',
 })
 export class Table<T = any> {

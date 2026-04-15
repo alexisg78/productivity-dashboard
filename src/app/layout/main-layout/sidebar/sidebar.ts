@@ -18,19 +18,19 @@ export class Sidebar {
     {
       label: 'Gastos',
       icon: 'fa-solid fa-receipt',
-      route: '/dashboard/expenses',
+      route: '/expenses',
       section: 'main',
     },
     {
       label: 'Tareas',
       icon: 'fa-solid fa-list-check',
-      route: '/dashboard/tasks',
+      route: '/tasks',
       section: 'main',
     },
     {
       label: 'Perfil',
       icon: 'fa-solid fa-user',
-      route: '/dashboard/profile',
+      route: '/profile',
       section: 'setting',
     },
     {

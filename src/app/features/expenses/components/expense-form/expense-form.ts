@@ -18,7 +18,7 @@ export class ExpenseForm {
   categoryLabels = CATEGORY_LABELS;
 
   form = signal<CreateExpenseDto>({
-    category: 'OTRO',
+    category: 'SERV',
     title: '',
     description: '',
     amount: 0,
@@ -41,7 +41,7 @@ export class ExpenseForm {
         });
       } else {
         this.form.set({
-          category: 'OTRO',
+          category: 'SERV',
           title: '',
           description: '',
           amount: 0,

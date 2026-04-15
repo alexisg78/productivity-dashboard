@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-
-import { RouterOutlet } from '@angular/router';
 import { StatCard } from '../components/stats-cards/stat-card';
 import { ExpenseStateService } from '../../../core/services/expense-state';
+import DashboardOverview from '../components/dashboard-overview/dashboard-overview';
 
 @Component({
   selector: 'dashboard',
-  imports: [StatCard, RouterOutlet],
+  imports: [StatCard, DashboardOverview],
   templateUrl: './dashboard.html',
 })
 export default class Dashboard {

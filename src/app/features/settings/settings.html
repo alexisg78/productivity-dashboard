@@ -16,7 +16,8 @@
         min="1"
         max="6"
         class="w-32 rounded-md border border-slate-600 bg-slate-700 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        [value]="columnsCount()"
+        [value]="cantColumns()"
+        disabled
       />
     </div>
 
@@ -29,15 +30,19 @@
           <input
             type="text"
             class="rounded-md border border-slate-600 bg-slate-700 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-blue-500"
-            [value]="column"
+            [value]="column.name"
+            (input)="updateColumnName($index, $any($event.target).value)"
           />
         }
       </div>
     </div>
 
-    <button class="mt-3 rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700">
+    <!-- todo -->
+    <!-- <button class="mt-3 rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700">
       Guardar cambios
-    </button>
+    </button> -->
+
+    <p class="text-xs text-slate-400">Los cambios se aplican automáticamente</p>
   </section>
 
   <!-- APPEARANCE -->

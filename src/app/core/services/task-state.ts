@@ -1,36 +1,16 @@
-import { Injectable, computed, effect, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { TaskListModel } from '../../features/tasks/interfaces/task-list-model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { SettingsStateService } from './settings-state';
 
 const STORAGE_KEY = 'task';
-
-const initialData: TaskListModel[] = [
-  {
-    id: 'todo',
-    title: 'Pendientes',
-    status: 'todo',
-    tasks: [
-      { id: 1, content: 'Delete all references from the wiki', status: 'todo' },
-      { id: 2, content: 'Remove analytics code', status: 'todo' },
-    ],
-  },
-  { id: 'in-progress', title: 'En progreso', status: 'in-progress', tasks: [] },
-  {
-    id: 'done',
-    title: 'Realizadas',
-    status: 'done',
-    tasks: [
-      { id: 3, content: 'fix bugs', status: 'done' },
-      { id: 4, content: 'Refactoring analytics code', status: 'done' },
-    ],
-  },
-];
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskStateService {
   private list = signal<TaskListModel[]>(this.loadFromStorage());
+  private settingsState = inject(SettingsStateService);
 
   listReadonly = this.list.asReadonly();
 
@@ -58,6 +38,23 @@ export class TaskStateService {
   constructor() {
     effect(() => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.list()));
+    });
+
+    effect(() => {
+      const columns = this.settingsState.columns();
+
+      this.list.update((currentLists) => {
+        return columns.map((col) => {
+          const existing = currentLists.find((l) => l.id === col.id);
+
+          return {
+            id: col.id,
+            title: col.name,
+            status: col.id,
+            tasks: existing?.tasks ?? [],
+          };
+        });
+      });
     });
   }
 
@@ -125,7 +122,7 @@ export class TaskStateService {
   private loadFromStorage(): TaskListModel[] {
     const stored = localStorage.getItem(STORAGE_KEY);
 
-    return stored ? JSON.parse(stored) : initialData;
+    return stored ? JSON.parse(stored) : this.createInitialColumns();
   }
 
   restartTask() {
@@ -156,5 +153,14 @@ export class TaskStateService {
         return list;
       });
     });
+  }
+
+  private createInitialColumns(): TaskListModel[] {
+    return this.settingsState.columns().map((col) => ({
+      id: col.id,
+      title: col.name,
+      status: col.id,
+      tasks: [],
+    }));
   }
 }

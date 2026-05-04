@@ -1,12 +1,10 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { TaskStateService } from './task-state';
+import { Injectable, signal } from '@angular/core';
+import { ColumnId, DEFAULT_COLUMNS } from '../../shared/constants/default-column.constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsStateService {
-  private taskState = inject(TaskStateService);
-
   theme = signal<'light' | 'dark'>('dark');
 
   currency = signal<'ARS' | 'USD'>('ARS');
@@ -15,5 +13,5 @@ export class SettingsStateService {
 
   visibleTasks = signal<string[]>([]);
 
-  columnsNames = computed(() => this.taskState.listReadonly().map((t) => t.title));
+  columns = signal<{ id: ColumnId; name: string }[]>([...DEFAULT_COLUMNS]);
 }
